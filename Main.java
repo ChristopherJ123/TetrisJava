@@ -4,5 +4,7 @@ public class Main {
     public static void main(String[] args) throws InterruptedException {
         new TetrisApp();
         //Controls: move=arrowkeys instaplace=space rotation(WIP BROKEN)=x,z
+
+        //TODO fix rotation, add placement outline, line clearing, etc
     }
 }

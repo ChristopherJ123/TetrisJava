@@ -42,6 +42,7 @@ public class TetrisApp {
     boolean timerOn = true;
     int y = 0;
     int x = 0;
+    int newTetrominoInterval= 0;
 
     public void tetrisTimer() throws InterruptedException {
 
@@ -65,15 +66,17 @@ public class TetrisApp {
         }
     }
 
-    public void randomTetromino() {
+    public void newRandomTetromino() {
         x = 0;
         y = 0;
+        newTetrominoInterval = 0;
         tetrominoType = (int) (Math.random() * tetrominoes.length);
     }
 
     public void moveDown() {
         if (hasHitFloor()) {
-            randomTetromino();
+            newTetrominoInterval++;
+            if (newTetrominoInterval == 5) newRandomTetromino();
             return;
         }
         tetrominoReDraw(1,0);
@@ -86,7 +89,7 @@ public class TetrisApp {
             tetrominoReDraw(1,0);
             y++;
         }
-        randomTetromino();
+        newRandomTetromino();
         tetrominoReDraw(0,0);
         updateDisplay();
     }
@@ -173,26 +176,25 @@ public class TetrisApp {
         for (int row = 0; row < tetrominoes[tetrominoType].length; row++) {
             for (int item = 0; item < tetrominoes[tetrominoType][row].length; item++) {
                 try {
-                    //Right side
                     if (tetrominoes[tetrominoType][row][item] != 0 && tetrominoes[tetrominoType][row][item + m] == 0) {
-                        System.out.println("(x:"+(item + 1)+" y:"+(row + 1)+") is tetromino right edge because the value on the right is " + tetrominoes[tetrominoType][row + y][item+m + x]);
+                        System.out.println("(x:"+(item + 1)+" y:"+(row + 1)+") is tetromino side edge because the value on the beside is " + tetrominoes[tetrominoType][row + y][item+m + x]);
                         if (tetrisArea[row + y][item+m + x] != 0) {
-                            System.out.println("(x:"+(item + 1)+" y:"+(row + 1)+") Has hit right edge");
-                            System.out.println("The right wall is "+"(x:"+(item+m + 1)+" y:"+(row + y + 1)+")" + " The  value is: " + tetrisArea[row + y][item+m + x]);
+                            System.out.println("(x:"+(item + 1)+" y:"+(row + 1)+") Has hit side edge");
+                            System.out.println("The side wall is "+"(x:"+(item+m + 1)+" y:"+(row + y + 1)+")" + " The  value is: " + tetrisArea[row + y][item+m + x]);
                             return true;
                         }
                     }
                 } catch (ArrayIndexOutOfBoundsException ignored) {
-                    System.out.println("(x:"+(item + 1)+" y:"+(row + 1)+") is tetromino right edge because the value on the right is null");
+                    System.out.println("(x:"+(item + 1)+" y:"+(row + 1)+") is tetromino side edge because the value on the beside is null");
                     try {
                         if (tetrisArea[row + y][item+m + x] != 0) {
-                            System.out.println("(x:" + (item + 1) + " y:" + (row + 1) + ") Has hit right edge");
-                            System.out.println("The right wall is " + "(x:" + (item+m + x + 1) + " y:" + (row + y + 1) + ")" + " The  value is: " + tetrisArea[row + y][item+m + x]);
+                            System.out.println("(x:" + (item + 1) + " y:" + (row + 1) + ") Has hit side edge");
+                            System.out.println("The side wall is " + "(x:" + (item+m + x + 1) + " y:" + (row + y + 1) + ")" + " The  value is: " + tetrisArea[row + y][item+m + x]);
                             return true;
                         }
                     } catch (ArrayIndexOutOfBoundsException ignored2) {
-                        System.out.println("(x:" + (item + 1) + " y:" + (row + 1) + ") Has hit right edge");
-                        System.out.println("The right wall is " + "(x:" + (item+m + x + 1) + " y:" + (row + y + 1) + ")" + " The  value is: null");
+                        System.out.println("(x:" + (item + 1) + " y:" + (row + 1) + ") Has hit side edge");
+                        System.out.println("The side wall is " + "(x:" + (item+m + x + 1) + " y:" + (row + y + 1) + ")" + " The  value is: null");
                         return true;
                     }
                 }
