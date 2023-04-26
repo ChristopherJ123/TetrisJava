@@ -7,6 +7,13 @@ import java.awt.event.ActionListener;
 
 public class TetrisGUI extends JFrame implements ActionListener {
 
+    Action rightAction;
+    Action leftAction;
+    Action downAction;
+    Action spaceAction;
+    Action rotateClockwiseAction;
+    Action rotateAntiClockwiseAction;
+
     JPanel containerPanel;
 
     String[] tetrominoTypes = {"LTetromino", "JTetromino", "ZTetromino", "STetromino", "ITetromino", "Tetromino", "TTetromino"};
@@ -14,6 +21,7 @@ public class TetrisGUI extends JFrame implements ActionListener {
 
     JButton startButton;
 
+    JPanel body;
     JPanel tetrisBody;
     JPanel menuBody;
     JPanel tetrisContainer;
@@ -22,6 +30,7 @@ public class TetrisGUI extends JFrame implements ActionListener {
     TetrisGUI() {
         startButton = new JButton("Start");
         startButton.addActionListener(this);
+        startButton.setFocusable(false);
 
         tetrisBox = new JLabel[22][10];
 
@@ -48,12 +57,23 @@ public class TetrisGUI extends JFrame implements ActionListener {
         tetrisBody.setLayout(null);
         tetrisBody.add(tetrisContainer);
 
+        tetrisBody.getInputMap().put(KeyStroke.getKeyStroke("RIGHT"), "rightActionKey");
+        tetrisBody.getInputMap().put(KeyStroke.getKeyStroke("LEFT"), "leftActionKey");
+        tetrisBody.getInputMap().put(KeyStroke.getKeyStroke("DOWN"), "downActionKey");
+        tetrisBody.getInputMap().put(KeyStroke.getKeyStroke("SPACE"), "spaceActionKey");
+        tetrisBody.getInputMap().put(KeyStroke.getKeyStroke('x'), "rotateClockwiseActionKey");
+        tetrisBody.getInputMap().put(KeyStroke.getKeyStroke('z'), "rotateAntiClockwiseActionKey");
+
         menuBody = new JPanel();
         menuBody.setPreferredSize(new Dimension(240,0));
         menuBody.setBackground(Color.gray);
         menuBody.setLayout(new FlowLayout());
         menuBody.add(startButton);
 
+        body = new JPanel();
+        body.setLayout(new BorderLayout());
+        body.add(tetrisBody, BorderLayout.WEST);
+        body.add(menuBody, BorderLayout.EAST);
 
         this.setTitle("setTitle goes here");
         this.setSize(600, 740);
@@ -64,8 +84,7 @@ public class TetrisGUI extends JFrame implements ActionListener {
         this.setLayout(new BorderLayout());
         this.getContentPane().setBackground(Color.BLACK);
 
-        this.add(tetrisBody, BorderLayout.WEST);
-        this.add(menuBody, BorderLayout.EAST);
+        this.add(body);
     }
 
     public static void main(String[] args) {
