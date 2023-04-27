@@ -1,6 +1,8 @@
 package Tetris;
 
 import javax.swing.*;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.SoftBevelBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,6 +23,10 @@ public class TetrisGUI extends JFrame implements ActionListener {
 
     JButton startButton;
 
+    JLabel scoreLabel;
+
+    JLabel endLabel;
+
     JPanel body;
     JPanel tetrisBody;
     JPanel menuBody;
@@ -28,7 +34,9 @@ public class TetrisGUI extends JFrame implements ActionListener {
     JLabel[][] tetrisBox;
 
     TetrisGUI() {
-        startButton = new JButton("Start");
+        scoreLabel = new JLabel("Your score is: 0");
+
+        startButton = new JButton("0");
         startButton.addActionListener(this);
         startButton.setFocusable(false);
 
@@ -43,7 +51,6 @@ public class TetrisGUI extends JFrame implements ActionListener {
         for (int row = 0; row < 22; row++) {
             for (int columnInRow = 0; columnInRow < 10; columnInRow++) {
                 tetrisBox[row][columnInRow] = new JLabel();
-                tetrisBox[row][columnInRow].setBorder(BorderFactory.createLineBorder(Color.black, 1));
                 tetrisBox[row][columnInRow].setOpaque(true);
                 tetrisContainer.add(tetrisBox[row][columnInRow]);
             }
@@ -56,24 +63,27 @@ public class TetrisGUI extends JFrame implements ActionListener {
         tetrisBody.setBackground(new Color(0, 127, 0));
         tetrisBody.setLayout(null);
         tetrisBody.add(tetrisContainer);
-
-        tetrisBody.getInputMap().put(KeyStroke.getKeyStroke("RIGHT"), "rightActionKey");
-        tetrisBody.getInputMap().put(KeyStroke.getKeyStroke("LEFT"), "leftActionKey");
-        tetrisBody.getInputMap().put(KeyStroke.getKeyStroke("DOWN"), "downActionKey");
-        tetrisBody.getInputMap().put(KeyStroke.getKeyStroke("SPACE"), "spaceActionKey");
-        tetrisBody.getInputMap().put(KeyStroke.getKeyStroke('x'), "rotateClockwiseActionKey");
-        tetrisBody.getInputMap().put(KeyStroke.getKeyStroke('z'), "rotateAntiClockwiseActionKey");
+        tetrisBody.setFocusable(false);
 
         menuBody = new JPanel();
         menuBody.setPreferredSize(new Dimension(240,0));
         menuBody.setBackground(Color.gray);
         menuBody.setLayout(new FlowLayout());
-        menuBody.add(startButton);
+        menuBody.add(scoreLabel);
+        menuBody.setFocusable(false);
 
         body = new JPanel();
         body.setLayout(new BorderLayout());
         body.add(tetrisBody, BorderLayout.WEST);
         body.add(menuBody, BorderLayout.EAST);
+        body.setFocusable(true);
+
+        body.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("RIGHT"), "rightActionKey");
+        body.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("LEFT"), "leftActionKey");
+        body.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("DOWN"), "downActionKey");
+        body.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("SPACE"), "spaceActionKey");
+        body.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke('x'), "rotateClockwiseActionKey");
+        body.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke('z'), "rotateAntiClockwiseActionKey");
 
         this.setTitle("setTitle goes here");
         this.setSize(600, 740);
