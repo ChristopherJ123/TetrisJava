@@ -67,7 +67,7 @@ public class TetrisApp {
 
         while (timerOn) {
             moveDown();
-            Thread.sleep(1000000);
+            Thread.sleep(1000);
         }
     }
 
@@ -497,7 +497,7 @@ public class TetrisApp {
             if (canRotate(-1)) {
                 tetrominoErase();
                 outlineTetrominoErase();
-                tetrominoes[tetrominoType] = rotate(tetrominoes[tetrominoType], 1);
+                tetrominoes[tetrominoType] = rotate(tetrominoes[tetrominoType], -1);
                 tetrominoReDraw(0,0); //value 0,0 buat redraw rotation (no value change in rotation)
                 yOutline = y;
                 xOutline = x;
