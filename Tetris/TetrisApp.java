@@ -41,6 +41,8 @@ public class TetrisApp {
     int tetrominoType = (int) (Math.random() * tetrominoes.length);
 
     boolean timerOn = true;
+    boolean enableMovement = true;
+    int gameOverCondition = 0;
     int score = 0;
     int y = 0;
     int x = 3;
@@ -57,6 +59,8 @@ public class TetrisApp {
         tetrisGUI.spaceAction = new SpaceAction();
         tetrisGUI.rotateClockwiseAction = new RotateClockwiseAction();
         tetrisGUI.rotateAntiClockwiseAction = new RotateAntiClockwiseAction();
+        tetrisGUI.exitAction = new ExitAction();
+
 
         tetrisGUI.body.getActionMap().put("rightActionKey", tetrisGUI.rightAction);
         tetrisGUI.body.getActionMap().put("leftActionKey", tetrisGUI.leftAction);
@@ -64,10 +68,12 @@ public class TetrisApp {
         tetrisGUI.body.getActionMap().put("spaceActionKey", tetrisGUI.spaceAction);
         tetrisGUI.body.getActionMap().put("rotateClockwiseActionKey", tetrisGUI.rotateClockwiseAction);
         tetrisGUI.body.getActionMap().put("rotateAntiClockwiseActionKey", tetrisGUI.rotateAntiClockwiseAction);
+        tetrisGUI.body.getActionMap().put("exitActionKey", tetrisGUI.exitAction);
+
 
         while (timerOn) {
             moveDown();
-            Thread.sleep(1000);
+            Thread.sleep(100000);
         }
     }
 
@@ -80,6 +86,19 @@ public class TetrisApp {
         tetrominoes = Arrays.stream(TetrisContants.TETROMINOES).map(int[][]::clone).toArray(int[][][]::new);
         newTetrominoInterval = 0;
         tetrominoType = (int) (Math.random() * tetrominoes.length);
+        gameOverCheck();
+    }
+
+    public void gameOverCheck() {
+        if (hasHitFloor()) {
+            gameOverCondition++;
+            if (gameOverCondition >= 2) {
+                JOptionPane.showMessageDialog(null, "Game over!", "GAME OVER", JOptionPane.WARNING_MESSAGE);
+                timerOn = false;
+                enableMovement = false;
+            }
+        } else
+            gameOverCondition = 0;
     }
 
     public void moveDown() {
@@ -445,48 +464,48 @@ public class TetrisApp {
     }
 
     public static void main(String[] args) throws InterruptedException {
-        new TetrisApp();
+        TetrisApp tetrisApp = new TetrisApp();
     }
 
     //Key binds
     public class RightAction extends AbstractAction {
         @Override
         public void actionPerformed(ActionEvent e) {
-            move(1);
+            if (enableMovement) move(1);
         }
     }
     public class DownAction extends AbstractAction {
         @Override
         public void actionPerformed(ActionEvent e) {
-            moveDown();
+            if (enableMovement) moveDown();
         }
     }
     public class LeftAction extends AbstractAction {
         @Override
         public void actionPerformed(ActionEvent e) {
-            move(-1);
+            if (enableMovement) move(-1);
         }
     }
     public class SpaceAction extends AbstractAction {
         @Override
         public void actionPerformed(ActionEvent e) {
-            moveDownInstant();
+            if (enableMovement) moveDownInstant();
         }
     }
     public class RotateClockwiseAction extends AbstractAction {
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (canRotate(1)) {
+            if (canRotate(1) && enableMovement) {
                 tetrominoErase();
                 outlineTetrominoErase();
                 tetrominoes[tetrominoType] = rotate(tetrominoes[tetrominoType], 1);
-                tetrominoReDraw(0,0); //value 0,0 buat redraw rotation (no value change in rotation)
                 yOutline = y;
                 xOutline = x;
                 outlineMoveDown();
                 while (!outlineCanRotate(1)) yOutline--; //buat kondisi can rotate outline
-                while (!outlineHasHitFloor()) yOutline++; // buat kondisi hit floor outline
+                while (!outlineHasHitFloor()) yOutline++; // buat kondisi hit floor outline ketika outline belum hit floor
                 outlineTetrominoReDraw(0,0);
+                tetrominoReDraw(0,0); //value 0,0 buat redraw rotation (no value change in rotation)
                 updateDisplay();
             }
         }
@@ -494,19 +513,25 @@ public class TetrisApp {
     public class RotateAntiClockwiseAction extends AbstractAction {
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (canRotate(-1)) {
+            if (canRotate(-1) && enableMovement) {
                 tetrominoErase();
                 outlineTetrominoErase();
                 tetrominoes[tetrominoType] = rotate(tetrominoes[tetrominoType], -1);
-                tetrominoReDraw(0,0); //value 0,0 buat redraw rotation (no value change in rotation)
                 yOutline = y;
                 xOutline = x;
                 outlineMoveDown();
                 while (!outlineCanRotate(-1)) yOutline--; //buat kondisi can rotate outline
                 while (!outlineHasHitFloor()) yOutline++; // buat kondisi hit floor outline
                 outlineTetrominoReDraw(0,0);
+                tetrominoReDraw(0,0); //value 0,0 buat redraw rotation (no value change in rotation)
                 updateDisplay();
             }
+        }
+    }
+    public class ExitAction extends AbstractAction {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            System.exit(0);
         }
     }
 }
