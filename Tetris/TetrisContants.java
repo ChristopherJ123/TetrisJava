@@ -49,5 +49,5 @@ public class TetrisContants {
     public static final Color YELLOW = new Color(255, 255, 0);
     public static final Color PURPLE = new Color(255, 0, 165);
     public static final Color BLACK = new Color(0, 0, 0);
-    public static final Color GRAY_OUTLINE = new Color(70, 80, 90);
+    public static final Color GRAY_OUTLINE = new Color(130, 130, 140);
 }

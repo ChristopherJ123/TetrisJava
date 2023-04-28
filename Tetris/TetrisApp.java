@@ -22,7 +22,7 @@ public class TetrisApp {
             {0,0,0,0,0,0,0,0,0,0},
             {0,0,0,0,0,0,0,0,0,0},
             {0,0,0,0,0,0,0,0,0,0},
-            {0,0,0,0,0,1,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0},
             {0,0,0,0,0,0,0,0,0,0},
             {0,0,0,0,0,0,0,0,0,0},
             {0,0,0,0,0,0,0,0,0,0},
@@ -102,6 +102,9 @@ public class TetrisApp {
             y++;
         }
         newRandomTetromino();
+        yOutline = y;
+        xOutline = x;
+        outlineMoveDown();
         tetrominoReDraw(0,0);
         updateDisplay();
     }
@@ -369,7 +372,7 @@ public class TetrisApp {
                     }
                     case 'O' -> {
                         tetrisGUI.tetrisBox[row][columnInRow].setBackground(TetrisContants.BLACK);
-                        tetrisGUI.tetrisBox[row][columnInRow].setBorder(BorderFactory.createDashedBorder(TetrisContants.RED, 2, 5));
+                        tetrisGUI.tetrisBox[row][columnInRow].setBorder(BorderFactory.createDashedBorder(TetrisContants.GRAY_OUTLINE, 2, 5));
                     }
                     default -> {
                         tetrisGUI.tetrisBox[row][columnInRow].setBorder(BorderFactory.createSoftBevelBorder(SoftBevelBorder.LOWERED));
@@ -478,10 +481,9 @@ public class TetrisApp {
                 outlineTetrominoErase();
                 tetrominoes[tetrominoType] = rotate(tetrominoes[tetrominoType], 1);
                 tetrominoReDraw(0,0); //value 0,0 buat redraw rotation (no value change in rotation)
-
-//                outlineTetrominoErase(); error ternyata
-//                yOutline = y;
-//                xOutline = x;
+                yOutline = y;
+                xOutline = x;
+                outlineMoveDown();
                 while (!outlineCanRotate(1)) yOutline--; //buat kondisi can rotate outline
                 while (!outlineHasHitFloor()) yOutline++; // buat kondisi hit floor outline
                 outlineTetrominoReDraw(0,0);
@@ -494,15 +496,16 @@ public class TetrisApp {
         public void actionPerformed(ActionEvent e) {
             if (canRotate(-1)) {
                 tetrominoErase();
-                tetrominoes[tetrominoType] = rotate(tetrominoes[tetrominoType], -1);
-                tetrominoReDraw(0,0);
+                outlineTetrominoErase();
+                tetrominoes[tetrominoType] = rotate(tetrominoes[tetrominoType], 1);
+                tetrominoReDraw(0,0); //value 0,0 buat redraw rotation (no value change in rotation)
+                yOutline = y;
+                xOutline = x;
+                outlineMoveDown();
+                while (!outlineCanRotate(-1)) yOutline--; //buat kondisi can rotate outline
+                while (!outlineHasHitFloor()) yOutline++; // buat kondisi hit floor outline
+                outlineTetrominoReDraw(0,0);
                 updateDisplay();
-                for (int i = 0; i < tetrominoes[tetrominoType].length; i++) {
-                    for (int j = 0; j < tetrominoes[tetrominoType][i].length; j++) {
-                        System.out.print((tetrominoes[tetrominoType][i][j]) + " " + "\t");
-                    }
-                    System.out.println();
-                }
             }
         }
     }
