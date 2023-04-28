@@ -3,6 +3,8 @@ package Tetris;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
+import java.io.IOException;
 
 public class TetrisGUI extends JFrame implements ActionListener, MouseListener, MouseMotionListener {
 
@@ -12,31 +14,66 @@ public class TetrisGUI extends JFrame implements ActionListener, MouseListener, 
     Action spaceAction;
     Action rotateClockwiseAction;
     Action rotateAntiClockwiseAction;
+    Action holdAction;
     Action exitAction;
+
+    Font customFont;
+    Font customFontSmall;
 
     JButton startButton;
 
+    JLabel staticLabel;
     JLabel scoreLabel;
 
     JPanel body;
+    JPanel tetrominoHoldBody;
     JPanel tetrisBody;
     JPanel menuBody;
+    JPanel tetrominoHoldContainer;
     JPanel tetrisContainer;
+    JPanel tetrominoContainer;
+    JLabel[][] tetrominoHoldBox;
     JLabel[][] tetrisBox;
+    JLabel[][] tetrominoBox;
 
     TetrisGUI() {
-        scoreLabel = new JLabel("Your score is: 0");
+        try { //src StackOverflow
+            //create the font to use. Specify the size!
+            customFont = Font.createFont(Font.TRUETYPE_FONT, new File("src/Assets/Font/HunDIN1451.ttf")).deriveFont(20f);
+            customFontSmall = Font.createFont(Font.TRUETYPE_FONT, new File("src/Assets/Font/HunDIN1451.ttf")).deriveFont(13f);
+            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+            //register the font
+            ge.registerFont(customFont);
+        } catch (IOException | FontFormatException e) {
+            e.printStackTrace();
+        }
+
+        scoreLabel = new JLabel("score: 0");
+        scoreLabel.setBounds(20, 180, 150, 40);
+        scoreLabel.setFont(customFont);
+        scoreLabel.setForeground(Color.WHITE);
 
         startButton = new JButton("0");
         startButton.addActionListener(this);
         startButton.setFocusable(false);
 
+        tetrominoHoldBox = new JLabel[4][4];
         tetrisBox = new JLabel[22][10];
+        tetrominoBox = new JLabel[15][4];
+
+        tetrominoHoldContainer = new JPanel();
+        tetrominoHoldContainer.setBounds(20,50,120,120);
+        tetrominoHoldContainer.setLayout(new GridLayout(4,4));
+        for (int row = 0; row < 4; row++) {
+            for (int columnInRow = 0; columnInRow < 4; columnInRow++) {
+                tetrominoHoldBox[row][columnInRow] = new JLabel();
+                tetrominoHoldBox[row][columnInRow].setOpaque(true);
+                tetrominoHoldContainer.add(tetrominoHoldBox[row][columnInRow]);
+            }
+        }
 
         tetrisContainer = new JPanel();
-//        tetrisContainer.setPreferredSize(new Dimension(300,660));
-        tetrisContainer.setBounds(20,20,300,660);
-        tetrisContainer.setBackground(Color.WHITE);
+        tetrisContainer.setBounds(20, 20, 300, 660);
         tetrisContainer.setLayout(new GridLayout(22, 10));
         for (int row = 0; row < 22; row++) {
             for (int columnInRow = 0; columnInRow < 10; columnInRow++) {
@@ -46,46 +83,107 @@ public class TetrisGUI extends JFrame implements ActionListener, MouseListener, 
             }
         }
 
+        tetrominoContainer = new JPanel();
+        tetrominoContainer.setBounds(20, 50, 120, 450);
+        tetrominoContainer.setLayout(new GridLayout(15, 4));
+        for (int row = 0; row < 15; row++) {
+            for (int columnInRow = 0; columnInRow < 4; columnInRow++) {
+                tetrominoBox[row][columnInRow] = new JLabel();
+                tetrominoBox[row][columnInRow].setOpaque(true);
+                tetrominoContainer.add(tetrominoBox[row][columnInRow]);
+            }
+        }
+
+        tetrominoHoldBody = new JPanel();
+        tetrominoHoldBody.setBounds(0,0,160,337);
+        tetrominoHoldBody.setBackground(TetrisContants.GUI_MENUBG);
+        tetrominoHoldBody.setLayout(null);
+        staticLabel = new JLabel("hold tetromino");
+        staticLabel.setFont(customFont);
+        staticLabel.setBounds(20,20,160,20);
+        staticLabel.setForeground(Color.WHITE);
+        tetrominoHoldBody.add(tetrominoHoldContainer);
+        tetrominoHoldBody.add(staticLabel);
+        tetrominoHoldBody.add(scoreLabel);
+        staticLabel = new JLabel("controls:");
+        staticLabel.setFont(customFont);
+        staticLabel.setBounds(20,220,160,20);
+        staticLabel.setForeground(Color.WHITE);
+        tetrominoHoldBody.add(staticLabel);
+        staticLabel = new JLabel("movements = arrow keys");
+        staticLabel.setFont(customFontSmall);
+        staticLabel.setBounds(20,240,160,20);
+        staticLabel.setForeground(Color.WHITE);
+        tetrominoHoldBody.add(staticLabel);
+        staticLabel = new JLabel("space");
+        staticLabel.setFont(customFontSmall);
+        staticLabel.setBounds(20,253,160,20);
+        staticLabel.setForeground(Color.WHITE);
+        tetrominoHoldBody.add(staticLabel);
+        staticLabel = new JLabel("rotations = X,Y");
+        staticLabel.setFont(customFontSmall);
+        staticLabel.setBounds(20,271,160,20);
+        staticLabel.setForeground(Color.WHITE);
+        tetrominoHoldBody.add(staticLabel);
+        staticLabel = new JLabel("hold = C");
+        staticLabel.setFont(customFontSmall);
+        staticLabel.setBounds(20,289,160,20);
+        staticLabel.setForeground(Color.WHITE);
+        tetrominoHoldBody.add(staticLabel);
+        staticLabel = new JLabel("exit = ESCAPE");
+        staticLabel.setFont(customFontSmall);
+        staticLabel.setBounds(20,307,160,20);
+        staticLabel.setForeground(Color.WHITE);
+        tetrominoHoldBody.add(staticLabel);
+
         tetrisBody = new JPanel();
-        tetrisBody.setPreferredSize(new Dimension(340,0));
+        tetrisBody.setBounds(160,0,340,700);
         tetrisBody.setBackground(TetrisContants.GUI_TETRISBG);
         tetrisBody.setLayout(null);
-        tetrisBody.setFocusable(false);
         tetrisBody.add(tetrisContainer);
 
         menuBody = new JPanel();
-        menuBody.setPreferredSize(new Dimension(240,0));
+        menuBody.setBounds(500,0,160,520);
         menuBody.setBackground(TetrisContants.GUI_MENUBG);
-        menuBody.setLayout(new FlowLayout());
-        menuBody.add(scoreLabel);
-        menuBody.setFocusable(false);
+        menuBody.setLayout(null);
+        staticLabel = new JLabel("next tetromino");
+        staticLabel.setFont(customFont);
+        staticLabel.setBounds(20,20,160,20);
+        staticLabel.setForeground(Color.WHITE);
+        menuBody.add(tetrominoContainer);
+        menuBody.add(staticLabel);
 
         body = new JPanel();
-        body.setLayout(new BorderLayout());
-        body.add(tetrisBody, BorderLayout.WEST);
-        body.add(menuBody, BorderLayout.EAST);
+        body.setLayout(null);
+        body.add(tetrisBody);
+        body.add(menuBody);
+        body.add(tetrominoHoldBody);
         body.addMouseListener(this);
         body.addMouseMotionListener(this);
         body.setFocusable(true);
+        body.setBackground(new Color(0,0,0,0));
+        body.setOpaque(true);
 
         body.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("RIGHT"), "rightActionKey");
         body.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("LEFT"), "leftActionKey");
         body.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("DOWN"), "downActionKey");
         body.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("SPACE"), "spaceActionKey");
-        body.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke('x'), "rotateClockwiseActionKey");
         body.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke('z'), "rotateAntiClockwiseActionKey");
+        body.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke('x'), "rotateClockwiseActionKey");
+        body.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke('c'), "holdActionKey");
         body.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("ESCAPE"), "exitActionKey");
 
         this.add(body);
 
         this.setUndecorated(true);
-        this.setSize(580, 700);
+        this.setBackground(new Color(0,0,0,0));
+        this.setSize(700, 700);
         this.setVisible(true);
         this.setTitle("setTitle goes here");
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
         this.setResizable(true);
-        this.setLayout(new BorderLayout());
+        this.setLayout(null);
     }
 
     public static void main(String[] args) {
