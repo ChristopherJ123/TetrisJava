@@ -5,6 +5,6 @@ public class Main {
         new TetrisApp();
         //Controls: move=arrowkeys instaplace=space rotation(WIP BROKEN)=x,z
 
-        //TODO fix rotation, add placement outline, line clearing, etc
+        //TODO fix rotation outlines, bugs, add tetromino bar, etc
     }
 }

@@ -2,11 +2,9 @@ package Tetris;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
+import java.awt.event.*;
 
-public class TetrisGUI extends JFrame implements ActionListener {
+public class TetrisGUI extends JFrame implements ActionListener, MouseListener, MouseMotionListener {
 
     Action rightAction;
     Action leftAction;
@@ -16,16 +14,9 @@ public class TetrisGUI extends JFrame implements ActionListener {
     Action rotateAntiClockwiseAction;
     Action exitAction;
 
-    JPanel containerPanel;
-
-    String[] tetrominoTypes = {"LTetromino", "JTetromino", "ZTetromino", "STetromino", "ITetromino", "Tetromino", "TTetromino"};
-    String[] colors = {""};
-
     JButton startButton;
 
     JLabel scoreLabel;
-
-    JLabel endLabel;
 
     JPanel body;
     JPanel tetrisBody;
@@ -57,14 +48,14 @@ public class TetrisGUI extends JFrame implements ActionListener {
 
         tetrisBody = new JPanel();
         tetrisBody.setPreferredSize(new Dimension(340,0));
-        tetrisBody.setBackground(new Color(44, 62, 80));
+        tetrisBody.setBackground(TetrisContants.GUI_TETRISBG);
         tetrisBody.setLayout(null);
         tetrisBody.setFocusable(false);
         tetrisBody.add(tetrisContainer);
 
         menuBody = new JPanel();
         menuBody.setPreferredSize(new Dimension(240,0));
-        menuBody.setBackground(new Color(52, 73, 94));
+        menuBody.setBackground(TetrisContants.GUI_MENUBG);
         menuBody.setLayout(new FlowLayout());
         menuBody.add(scoreLabel);
         menuBody.setFocusable(false);
@@ -73,6 +64,8 @@ public class TetrisGUI extends JFrame implements ActionListener {
         body.setLayout(new BorderLayout());
         body.add(tetrisBody, BorderLayout.WEST);
         body.add(menuBody, BorderLayout.EAST);
+        body.addMouseListener(this);
+        body.addMouseMotionListener(this);
         body.setFocusable(true);
 
         body.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("RIGHT"), "rightActionKey");
@@ -93,14 +86,62 @@ public class TetrisGUI extends JFrame implements ActionListener {
         this.setLocationRelativeTo(null);
         this.setResizable(true);
         this.setLayout(new BorderLayout());
-        this.getContentPane().setBackground(Color.BLACK);
     }
 
     public static void main(String[] args) {
         new TetrisGUI();
     }
 
+    Point pressedPoint;
+    Rectangle frameBounds;
+
+    private void moveJFrame(MouseEvent event) {
+        Point endPoint = event.getPoint();
+
+        int xDiff = endPoint.x - pressedPoint.x;
+        int yDiff = endPoint.y - pressedPoint.y;
+        frameBounds.x += xDiff;
+        frameBounds.y += yDiff;
+        this.setBounds(frameBounds);
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+        this.frameBounds = this.getBounds();
+        this.pressedPoint = e.getPoint();
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+        moveJFrame(e);
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseDragged(MouseEvent e) {
+        moveJFrame(e);
+    }
+
+    @Override
+    public void mouseMoved(MouseEvent e) {
+
     }
 }

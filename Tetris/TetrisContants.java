@@ -41,6 +41,9 @@ public class TetrisContants {
             }
     };
 
+    public static final int TIMER_IN_MILLISECONDS = 1000;
+
+    //Tetrominos and outline colors
     public static final Color ORANGE = new Color(255, 165, 0);
     public static final Color BLUE = new Color(0, 0, 255);
     public static final Color GREEN = new Color(0, 165, 0);
@@ -50,4 +53,9 @@ public class TetrisContants {
     public static final Color PURPLE = new Color(255, 0, 165);
     public static final Color BLACK = new Color(0, 0, 0);
     public static final Color GRAY_OUTLINE = new Color(130, 130, 140);
+
+    //GUI Colors
+    public static final Color GUI_TETRISBG = new Color(44, 62, 80);
+    public static final Color GUI_MENUBG = new Color(52, 73, 94);
+
 }

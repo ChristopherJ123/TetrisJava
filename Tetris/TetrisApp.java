@@ -73,7 +73,7 @@ public class TetrisApp {
 
         while (timerOn) {
             moveDown();
-            Thread.sleep(100000);
+            Thread.sleep(TetrisContants.TIMER_IN_MILLISECONDS);
         }
     }
 
@@ -464,7 +464,7 @@ public class TetrisApp {
     }
 
     public static void main(String[] args) throws InterruptedException {
-        TetrisApp tetrisApp = new TetrisApp();
+        new TetrisApp();
     }
 
     //Key binds
@@ -528,7 +528,7 @@ public class TetrisApp {
             }
         }
     }
-    public class ExitAction extends AbstractAction {
+    public static class ExitAction extends AbstractAction {
         @Override
         public void actionPerformed(ActionEvent e) {
             System.exit(0);
