@@ -56,9 +56,10 @@ public class TetrisGUI extends JFrame implements ActionListener, MouseListener, 
         scoreLabel.setFont(customFont);
         scoreLabel.setForeground(Color.WHITE);
 
-        startButton = new JButton("0");
+        startButton = new JButton("Clear Memory");
         startButton.addActionListener(this);
         startButton.setFocusable(false);
+        startButton.setBounds(0,320,130,20);
 
         tetrominoHoldBox = new JLabel[4][4];
         tetrisBox = new JLabel[22][10];
@@ -209,6 +210,10 @@ public class TetrisGUI extends JFrame implements ActionListener, MouseListener, 
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == startButton) {
+            System.out.println("cleared");
+            System.gc();
+        }
     }
 
     @Override

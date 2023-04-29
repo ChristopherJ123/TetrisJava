@@ -1,9 +1,6 @@
 package Tetris;
 
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.swing.*;
+import javax.sound.sampled.*;
 import java.net.URL;
 
 public class TetrisSounds { //src StackOverflow
@@ -16,10 +13,15 @@ public class TetrisSounds { //src StackOverflow
             AudioInputStream ais = AudioSystem.getAudioInputStream(url);
             clip.open(ais);
             clip.start();
-            SwingUtilities.invokeLater(() -> {
-                // A GUI element to prevent the Clip's daemon Thread
-                // from terminating at the end of the main()
+            clip.addLineListener(new LineListener() {
+                @Override
+                public void update(LineEvent event) {
+                    if (event.getType() == LineEvent.Type.STOP) {
+                        event.getLine().close();
+                    }
+                }
             });
+
         } catch (Exception e) {
             System.out.println("error");
             e.printStackTrace();
