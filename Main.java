@@ -3,8 +3,8 @@ import Tetris.TetrisApp;
 public class Main {
     public static void main(String[] args) throws InterruptedException {
         new TetrisApp();
-        //Controls: move=arrowkeys instaplace=space rotation(WIP BROKEN)=x,z
+        //Controls: move=arrowkeys,space rotation=x,z hold=c
 
-        //TODO fix rotation outlines, bugs, add tetromino bar, etc
+        //TODO: bugs, etc
     }
 }

@@ -24,10 +24,13 @@ public class TetrisApp {
     boolean enableMovement = true;
     boolean isHolding = false;
     boolean hasHold = false;
+    boolean hasClearAllLine = true;
     Integer[] ordersFinal = {1,2,3,4,5,6};
     Integer[] orders = new Integer[12];
     int gameOverCondition = 0;
     int score = 0;
+    int linesCleared = 0;
+    int combo = 0;
     int y = 0;
     int x = 3;
     int yOutline = y;
@@ -79,7 +82,6 @@ public class TetrisApp {
             }
             System.out.println(Arrays.toString(orders));
         }
-
         for (int i = 1; i < orders.length; i++) { //Turun list
             orders[i-1] = orders[i];
         }
@@ -88,7 +90,8 @@ public class TetrisApp {
 
     public void newTetromino() {
         if (isHolding) hasHold = false;
-        checkIfLineFull();
+        boolean lineIsFull = checkIfLineFull();
+        if (!lineIsFull) combo = 0;
         x = 3;
         y = 0;
         xOutline = x;
@@ -117,9 +120,11 @@ public class TetrisApp {
 
     public void moveDown() {
         if (hasHitFloor()) {
-            newTetromino();
+            newTetrominoInterval++;
+            if (newTetrominoInterval == 3) newTetromino();
             return;
         }
+        TetrisSounds.playSound("/Assets/Sounds/softdrop.wav"); //sounds
         yOutline = y;
         xOutline = x;
         outlineMoveDown();
@@ -133,6 +138,7 @@ public class TetrisApp {
             tetrominoReDraw(1,0);
             y++;
         }
+        TetrisSounds.playSound("/Assets/Sounds/floor.wav"); //sounds
         newTetromino();
         yOutline = y;
         xOutline = x;
@@ -143,6 +149,7 @@ public class TetrisApp {
 
     public void move(int m) {
         if (hasHitWall(m)) return;
+        TetrisSounds.playSound("/Assets/Sounds/move.wav"); //sounds
         outlineTetrominoErase();
         yOutline = y;
         xOutline = x;
@@ -197,24 +204,24 @@ public class TetrisApp {
             for (int item = 0; item < tetrominoes[tetrominoType][row].length; item++) {
                 try {
                     if (tetrominoes[tetrominoType][row][item] != 0 && tetrominoes[tetrominoType][row + 1][item] == 0) {
-                        System.out.println("(x:"+(item + 1)+" y:"+(row + 1)+") is tetromino bottom edge because the value below is " + tetrominoes[tetrominoType][row+1][item]);
+//                        System.out.println("(x:"+(item + 1)+" y:"+(row + 1)+") is tetromino bottom edge because the value below is " + tetrominoes[tetrominoType][row+1][item]);
                         if (tetrisArea[row+1 + y][item + x] != 0 && tetrisArea[row+1 + y][item + x] != 'O') {
-                            System.out.println("(x:"+(item + 1)+" y:"+(row + 1)+") Has hit floor");
-                            System.out.println("The floor is "+"(x:"+(item + 1)+" y:"+(row+1 + y + 1)+")" + " The floor value is: " + tetrisArea[row+1 + y][item + x]);
+//                            System.out.println("(x:"+(item + 1)+" y:"+(row + 1)+") Has hit floor");
+//                            System.out.println("The floor is "+"(x:"+(item + 1)+" y:"+(row+1 + y + 1)+")" + " The floor value is: " + tetrisArea[row+1 + y][item + x]);
                             return true;
                         }
                     }
                 } catch (ArrayIndexOutOfBoundsException ignored) {
-                    System.out.println("(x:"+(item + 1)+" y:"+(row + 1)+") is tetromino bottom edge because the value below is null");
+//                    System.out.println("(x:"+(item + 1)+" y:"+(row + 1)+") is tetromino bottom edge because the value below is null");
                     if (tetrisArea[row+1 + y][item + x] != 0 && tetrisArea[row+1 + y][item + x] != 'O') {
-                        System.out.println("(x:"+(item + 1)+" y:"+(row + 1)+") Has hit floor");
-                        System.out.println("The floor is "+"(x:"+(item + 1)+" y:"+(row+1 + y + 1)+")" + " The floor value is: " + tetrisArea[row+1 + y][item + x]);
+//                        System.out.println("(x:"+(item + 1)+" y:"+(row + 1)+") Has hit floor");
+//                        System.out.println("The floor is "+"(x:"+(item + 1)+" y:"+(row+1 + y + 1)+")" + " The floor value is: " + tetrisArea[row+1 + y][item + x]);
                         return true;
                     }
                 }
             }
         }
-        System.out.println("Has not hit floor");
+//        System.out.println("Has not hit floor");
         return false;
     }
 
@@ -239,7 +246,7 @@ public class TetrisApp {
                 }
             }
         }
-        System.out.println("Has not hit floor");
+//        System.out.println("Has not hit floor");
         return false;
     }
 
@@ -248,24 +255,24 @@ public class TetrisApp {
             for (int item = 0; item < tetrominoes[tetrominoType][row].length; item++) {
                 try {
                     if (tetrominoes[tetrominoType][row][item] != 0 && tetrominoes[tetrominoType][row][item + m] == 0) {
-                        System.out.println("(x:"+(item + 1)+" y:"+(row + 1)+") is tetromino side edge because the value on the beside is " + tetrominoes[tetrominoType][row + y][item+m + x]);
+//                        System.out.println("(x:"+(item + 1)+" y:"+(row + 1)+") is tetromino side edge because the value on the beside is " + tetrominoes[tetrominoType][row + y][item+m + x]);
                         if (tetrisArea[row + y][item+m + x] != 0 && tetrisArea[row + y][item+m + x] != 'O') {
-                            System.out.println("(x:"+(item + 1)+" y:"+(row + 1)+") Has hit side edge");
-                            System.out.println("The side wall is "+"(x:"+(item+m + 1)+" y:"+(row + y + 1)+")" + " The  value is: " + tetrisArea[row + y][item+m + x]);
+//                            System.out.println("(x:"+(item + 1)+" y:"+(row + 1)+") Has hit side edge");
+//                            System.out.println("The side wall is "+"(x:"+(item+m + 1)+" y:"+(row + y + 1)+")" + " The  value is: " + tetrisArea[row + y][item+m + x]);
                             return true;
                         }
                     }
                 } catch (ArrayIndexOutOfBoundsException ignored) {
-                    System.out.println("(x:"+(item + 1)+" y:"+(row + 1)+") is tetromino side edge because the value on the beside is null");
+//                    System.out.println("(x:"+(item + 1)+" y:"+(row + 1)+") is tetromino side edge because the value on the beside is null");
                     try {
                         if (tetrisArea[row + y][item+m + x] != 0 && tetrisArea[row + y][item+m + x] != 'O') {
-                            System.out.println("(x:" + (item + 1) + " y:" + (row + 1) + ") Has hit side edge");
-                            System.out.println("The side wall is " + "(x:" + (item+m + x + 1) + " y:" + (row + y + 1) + ")" + " The  value is: " + tetrisArea[row + y][item+m + x]);
+//                            System.out.println("(x:" + (item + 1) + " y:" + (row + 1) + ") Has hit side edge");
+//                            System.out.println("The side wall is " + "(x:" + (item+m + x + 1) + " y:" + (row + y + 1) + ")" + " The  value is: " + tetrisArea[row + y][item+m + x]);
                             return true;
                         }
                     } catch (ArrayIndexOutOfBoundsException ignored2) {
-                        System.out.println("(x:" + (item + 1) + " y:" + (row + 1) + ") Has hit side edge");
-                        System.out.println("The side wall is " + "(x:" + (item+m + x + 1) + " y:" + (row + y + 1) + ")" + " The  value is: null");
+//                        System.out.println("(x:" + (item + 1) + " y:" + (row + 1) + ") Has hit side edge");
+//                        System.out.println("The side wall is " + "(x:" + (item+m + x + 1) + " y:" + (row + y + 1) + ")" + " The  value is: null");
                         return true;
                     }
                 }
@@ -280,11 +287,11 @@ public class TetrisApp {
         for (int row = 0; row < tempTetrominoRotation.length; row++) {
             for (int item = 0; item < tempTetrominoRotation[row].length; item++) {
                 if (tempTetrominoRotation[row][item] != 0) {
-                    System.out.println("(x:"+(item + 1)+" y:"+(row + 1)+") is a tetromino block because the value is " + tempTetrominoRotation[row][item]);
+//                    System.out.println("(x:"+(item + 1)+" y:"+(row + 1)+") is a tetromino block because the value is " + tempTetrominoRotation[row][item]);
                     try {
                         if (tetrisArea[row + y][item + x] != 0 && tetrisArea[row + y][item + x] != 'O') {
-                            System.out.println("(x:" + (item + 1) + " y:" + (row + 1) + ") Has hit rotation block");
-                            System.out.println("The rotation block is " + "(x:" + (item + x + 1) + " y:" + (row + y + 1) + ")" + " The  value is: " + tetrisArea[row + y][item + x]);
+//                            System.out.println("(x:" + (item + 1) + " y:" + (row + 1) + ") Has hit rotation block");
+//                            System.out.println("The rotation block is " + "(x:" + (item + x + 1) + " y:" + (row + y + 1) + ")" + " The  value is: " + tetrisArea[row + y][item + x]);
                             return false;
                         }
                     } catch (ArrayIndexOutOfBoundsException e) {
@@ -297,8 +304,9 @@ public class TetrisApp {
 //                            x = x - 2 * direction;
 //                        }
 //                        System.out.println(errorValue);
-                        System.out.println("(x:" + (item + 1) + " y:" + (row + 1) + ") Has hit rotation block");
-                        System.out.println("The rotation block is " + "(x:" + (item + x + 1) + " y:" + (row + y + 1) + ")" + " The value is: null");
+                        //DEBUG VVV
+//                        System.out.println("(x:" + (item + 1) + " y:" + (row + 1) + ") Has hit rotation block");
+//                        System.out.println("The rotation block is " + "(x:" + (item + x + 1) + " y:" + (row + y + 1) + ")" + " The value is: null");
                         return false;
                     }
                 }
@@ -316,11 +324,11 @@ public class TetrisApp {
                 if (tempTetrominoRotation[row][item] != 0) {
                     try {
                         if (tetrisArea[row + yOutline][item + xOutline] != 0 && tetrisArea[row + yOutline][item + xOutline] != 'O') {
-                            System.out.println("Outline can't rotate");
+//                            System.out.println("Outline can't rotate");
                             return false;
                         }
                     } catch (ArrayIndexOutOfBoundsException e) {
-                        System.out.println("Outline can't rotate");
+//                        System.out.println("Outline can't rotate");
                         return false;
                     }
                 }
@@ -330,7 +338,7 @@ public class TetrisApp {
         return true;
     }
 
-    public void checkIfLineFull() {
+    public boolean checkIfLineFull() {
         boolean isFull = false;
         for (int row = tetrisArea.length - 2; row > -1; row--) {
             for (int item : tetrisArea[row]) {
@@ -341,25 +349,48 @@ public class TetrisApp {
                     isFull = true;
                 }
             }
+            //Untuk check line full
             if (isFull) {
+                linesCleared++;
                 clearLine(row);
-                break;
+                if (hasClearAllLine) combo++;
+                hasClearAllLine = false;
+                return true;
             }
         }
+        updateScore();
+        hasClearAllLine = true;
+        linesCleared = 0; //reset
+        return false;
     }
 
     public void clearLine(int index) {
+        if (linesCleared < 3) TetrisSounds.playSound("/Assets/Sounds/clearline.wav"); //sounds
+        else if (linesCleared == 4 && combo > 0) TetrisSounds.playSound("/Assets/Sounds/clearbtb.wav"); //sounds
+        else if (linesCleared == 4) TetrisSounds.playSound("/Assets/Sounds/clearquad.wav"); //sounds
+        if (combo == 1) TetrisSounds.playSound("/Assets/Sounds/combo_1.wav"); //sounds
+        else if (combo == 2) TetrisSounds.playSound("/Assets/Sounds/combo_2.wav"); //sounds
+        else if (combo == 3) TetrisSounds.playSound("/Assets/Sounds/combo_3.wav"); //sounds
+        else if (combo == 4) TetrisSounds.playSound("/Assets/Sounds/combo_4.wav"); //sounds
+        else if (combo == 5) TetrisSounds.playSound("/Assets/Sounds/combo_5.wav"); //sounds
+        else if (combo == 6) TetrisSounds.playSound("/Assets/Sounds/combo_6.wav"); //sounds
+        else if (combo == 7) TetrisSounds.playSound("/Assets/Sounds/combo_7.wav"); //sounds
         System.out.println("row/index is " + index);
         System.out.println("Line clear!");
-        score = score + 10;
-        tetrisGUI.scoreLabel.setText("score: " + score);
+        System.out.println("combo is: " + combo);
         for (int row = index - 1; row > -1; row--) {
             for (int item = 0; item < tetrisArea[row].length; item++) {
                 tetrisArea[row+1][item] = tetrisArea[row][item];
                 updateTetrisAreaDisplay();
             }
         }
-        checkIfLineFull();
+        checkIfLineFull(); //method to call clearLine again if there's still other full line
+    }
+
+    public void updateScore() {
+        if (linesCleared == 4) score = score + 40;
+        score = score + (10 * linesCleared) + (10 * combo * linesCleared);
+        tetrisGUI.scoreLabel.setText("score: " + score);
     }
 
     //GUI work
@@ -535,7 +566,7 @@ public class TetrisApp {
     public void outlineTetrominoReDraw(int yVal, int xVal) { //untuk move kanan kiri
         outlineTetrominoErase();
         for (int row = 0; row < tetrominoes[tetrominoType].length; row++) {
-            System.out.println("Row value is: " + row);
+//            System.out.println("Row value is: " + row);
             for (int item = 0; item < tetrominoes[tetrominoType][row].length; item++) {
                 if (String.valueOf(tetrominoes[tetrominoType][row][item]).matches("[1-7]"))
                     tetrisArea[row+yOutline + yVal][item+xOutline + xVal] = 'O';
@@ -660,6 +691,7 @@ public class TetrisApp {
         @Override
         public void actionPerformed(ActionEvent e) {
             if (canRotate(1) && enableMovement) {
+                TetrisSounds.playSound("/Assets/Sounds/rotate.wav"); //sounds
                 tetrominoErase();
                 outlineTetrominoErase();
                 tetrominoes[tetrominoType] = rotate(tetrominoes[tetrominoType], 1);
@@ -678,6 +710,7 @@ public class TetrisApp {
         @Override
         public void actionPerformed(ActionEvent e) {
             if (canRotate(-1) && enableMovement) {
+                TetrisSounds.playSound("/Assets/Sounds/rotate.wav"); //sounds
                 tetrominoErase();
                 outlineTetrominoErase();
                 tetrominoes[tetrominoType] = rotate(tetrominoes[tetrominoType], -1);
@@ -700,6 +733,7 @@ public class TetrisApp {
                     if (hasHold) {
                         return;
                     }
+                    TetrisSounds.playSound("/Assets/Sounds/hold.wav"); //sounds
                     int tempTetrominoHoldType = tetrominoHoldType;
                     tetrominoHoldBoxReDraw();
                     updateTetrominoHoldBoxDisplay();
@@ -718,6 +752,7 @@ public class TetrisApp {
                     updateTetrisAreaDisplay();
                     hasHold = true;
                 } else { //untuk hold pertama kali (dari else kebawah ini)
+                    TetrisSounds.playSound("/Assets/Sounds/hold.wav"); //sounds
                     tetrominoHoldBoxReDraw();
                     updateTetrominoHoldBoxDisplay();
                     tetrominoHoldType = tetrominoType;
