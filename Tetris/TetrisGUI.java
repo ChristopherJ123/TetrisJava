@@ -99,6 +99,7 @@ public class TetrisGUI extends JFrame implements ActionListener, MouseListener, 
 
         tetrominoHoldBody = new JPanel();
         tetrominoHoldBody.setBounds(0,0,160,337);
+        tetrominoHoldBody.setOpaque(true);
         tetrominoHoldBody.setBackground(TetrisContants.GUI_MENUBG);
         tetrominoHoldBody.setLayout(null);
         staticLabel = new JLabel("hold tetromino");
@@ -180,7 +181,7 @@ public class TetrisGUI extends JFrame implements ActionListener, MouseListener, 
 
         this.setUndecorated(true);
         this.setBackground(new Color(0,0,0,0));
-        this.setSize(700, 700);
+        this.setSize(660, 700);
         this.setVisible(true);
         this.setTitle("setTitle goes here");
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);

@@ -11,59 +11,11 @@ public class TetrisApp {
 
     TetrisGUI tetrisGUI;
 
-    char G = 'G';
-    int[][] tetrisArea = {
-            {0,0,0,0,0,0,0,0,0,0}, //tetrisArea[y][x]
-            {0,0,0,0,0,0,0,0,0,0},
-            {0,0,0,0,0,0,0,0,0,0},
-            {0,0,0,0,0,0,0,0,0,0},
-            {0,0,0,0,0,0,0,0,0,0},
-            {0,0,0,0,0,0,0,0,0,0},
-            {0,0,0,0,0,0,0,0,0,0},
-            {0,0,0,0,0,0,0,0,0,0},
-            {0,0,0,0,0,0,0,0,0,0},
-            {0,0,0,0,0,0,0,0,0,0},
-            {0,0,0,0,0,0,0,0,0,0},
-            {0,0,0,0,0,0,0,0,0,0},
-            {0,0,0,0,0,0,0,0,0,0},
-            {0,0,0,0,0,0,0,0,0,0},
-            {0,0,0,0,0,0,0,0,0,0},
-            {0,0,0,0,0,0,0,0,0,0},
-            {0,0,0,0,0,0,0,0,0,0},
-            {0,0,0,0,0,0,0,0,0,0},
-            {0,0,0,0,0,0,0,0,0,0},
-            {0,0,0,0,0,0,0,0,0,0},
-            {0,0,0,0,0,0,0,0,0,0},
-            {0,0,0,0,0,0,0,0,0,0},
-            {G,G,G,G,G,G,G,G,G,G}
-    };
-
-    int[][] tetrominoArea = {
-            {0,0,0,0}, //tetrisArea[y][x]
-            {0,0,0,0},
-            {0,0,0,0},
-            {0,0,0,0},
-            {0,0,0,0},
-            {0,0,0,0},
-            {0,0,0,0},
-            {0,0,0,0},
-            {0,0,0,0},
-            {0,0,0,0},
-            {0,0,0,0},
-            {0,0,0,0},
-            {0,0,0,0},
-            {0,0,0,0},
-            {0,0,0,0}
-    };
-
-    int[][] tetrominoBoxArea = {
-            {0,0,0,0}, //tetrisArea[y][x]
-            {0,0,0,0},
-            {0,0,0,0},
-            {0,0,0,0}
-    };
-
     int[][][] tetrominoes = Arrays.stream(TetrisContants.TETROMINOES).map(int[][]::clone).toArray(int[][][]::new);
+
+    int[][] tetrisArea = TetrisContants.TETRIS_AREA;
+    int[][] tetrominoArea = TetrisContants.TETROMINO_AREA;
+    int[][] tetrominoBoxArea = TetrisContants.TETROMINO_BOX_AREA;
 
     int tetrominoType;
     int tetrominoHoldType;
@@ -165,8 +117,7 @@ public class TetrisApp {
 
     public void moveDown() {
         if (hasHitFloor()) {
-            newTetrominoInterval++;
-            if (newTetrominoInterval == 5) newTetromino();
+            newTetromino();
             return;
         }
         yOutline = y;

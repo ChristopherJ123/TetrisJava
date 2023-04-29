@@ -3,7 +3,7 @@ package Tetris;
 import java.awt.*;
 
 public class TetrisContants {
-    public static final int[][][] TETROMINOES = {
+    public static final int[][][] TETROMINOES = { //can add custom
             { //0 LTetromino
                     {1,0,0},
                     {1,1,1},
@@ -41,6 +41,57 @@ public class TetrisContants {
             }
     };
 
+    public static final int[][] TETRIS_AREA = {
+            {0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0},
+            {0,0,0,0,0,0,0,0,0,0},
+            {'G','G','G','G','G','G','G','G','G','G'} //G = ground
+    };
+
+    public static final int[][] TETROMINO_AREA = {
+            {0,0,0,0},
+            {0,0,0,0},
+            {0,0,0,0},
+            {0,0,0,0},
+            {0,0,0,0},
+            {0,0,0,0},
+            {0,0,0,0},
+            {0,0,0,0},
+            {0,0,0,0},
+            {0,0,0,0},
+            {0,0,0,0},
+            {0,0,0,0},
+            {0,0,0,0},
+            {0,0,0,0},
+            {0,0,0,0}
+    };
+
+    public static final int[][] TETROMINO_BOX_AREA = {
+            {0,0,0,0},
+            {0,0,0,0},
+            {0,0,0,0},
+            {0,0,0,0}
+    };
+
     public static final int TIMER_IN_MILLISECONDS = 1000;
 
     //Tetrominos and outline colors
@@ -55,7 +106,8 @@ public class TetrisContants {
     public static final Color GRAY_OUTLINE = new Color(130, 130, 140);
 
     //GUI Colors
-    public static final Color GUI_TETRISBG = new Color(44, 62, 80);
+//    public static final Color GUI_TETRISBG = new Color(44, 62, 80);
+    public static final Color GUI_TETRISBG = new Color(0.20F, 0.28F, 0.36F, 0.75F);
     public static final Color GUI_MENUBG = new Color(52, 73, 94);
 
 }
