@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 
 public class TetrisGUI extends JFrame implements ActionListener, MouseListener, MouseMotionListener {
 
@@ -37,10 +38,12 @@ public class TetrisGUI extends JFrame implements ActionListener, MouseListener, 
     JLabel[][] tetrominoBox;
 
     TetrisGUI() {
+        InputStream is = getClass().getResourceAsStream("/Assets/Font/HunDIN1451.ttf");
         try { //src StackOverflow
             //create the font to use. Specify the size!
-            customFont = Font.createFont(Font.TRUETYPE_FONT, new File("src/Assets/Font/HunDIN1451.ttf")).deriveFont(20f);
-            customFontSmall = Font.createFont(Font.TRUETYPE_FONT, new File("src/Assets/Font/HunDIN1451.ttf")).deriveFont(13f);
+            assert is != null;
+            customFont = Font.createFont(Font.TRUETYPE_FONT, is).deriveFont(20f);
+            customFontSmall = customFont.deriveFont(13f);
             GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
             //register the font
             ge.registerFont(customFont);

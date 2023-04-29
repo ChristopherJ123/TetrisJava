@@ -4,6 +4,8 @@ import javax.swing.*;
 import javax.swing.border.SoftBevelBorder;
 import java.awt.event.ActionEvent;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 public class TetrisApp {
 
@@ -70,7 +72,8 @@ public class TetrisApp {
     boolean enableMovement = true;
     boolean isHolding = false;
     boolean hasHold = false;
-    Integer[] orders = new Integer[6];
+    Integer[] ordersFinal = {1,2,3,4,5,6};
+    Integer[] orders = new Integer[12];
     int gameOverCondition = 0;
     int score = 0;
     int y = 0;
@@ -110,15 +113,25 @@ public class TetrisApp {
     }
 
     public void generateRandomTetromino() {
-        for (int i = 0; i < orders.length; i++) { //check if orders is null
-            if (orders[i] == null) {
-                orders[i] = (int) (Math.random() * tetrominoes.length);
-            }
+        //Random 6 bag system by me
+        if (orders[0] == null) {
+            List<Integer> ordersList = Arrays.asList(ordersFinal);
+            Collections.shuffle(ordersList);
+            ordersList.toArray(orders);
         }
+        if (orders[6] == null) {
+            List<Integer> ordersList = Arrays.asList(ordersFinal);
+            Collections.shuffle(ordersList);
+            for (int i = 6; i < 12; i++) {
+                orders[i] = ordersList.get(i - 6);
+            }
+            System.out.println(Arrays.toString(orders));
+        }
+
         for (int i = 1; i < orders.length; i++) { //Turun list
             orders[i-1] = orders[i];
         }
-        orders[orders.length - 1] = (int) (Math.random() * tetrominoes.length);
+        orders[orders.length - 1] = null;
     }
 
     public void newTetromino() {
