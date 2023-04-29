@@ -63,7 +63,7 @@ public class TetrisApp {
 
         while (timerOn) {
             moveDown();
-            Thread.sleep(TetrisContants.TIMER_IN_MILLISECONDS);
+            Thread.sleep(1000000 / (score + 1000)); //score = x
         }
     }
 
