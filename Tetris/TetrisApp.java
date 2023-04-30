@@ -25,8 +25,8 @@ public class TetrisApp {
     boolean isHolding = false;
     boolean hasHold = false;
     boolean hasClearAllLine = true;
-    Integer[] ordersFinal = {1,2,3,4,5,6};
-    Integer[] orders = new Integer[12];
+    Integer[] ordersFinal = {0,1,2,3,4,5,6};
+    Integer[] orders = new Integer[14];
     int gameOverCondition = 0;
     int score = 0;
     int linesCleared = 0;
@@ -74,11 +74,11 @@ public class TetrisApp {
             Collections.shuffle(ordersList);
             ordersList.toArray(orders);
         }
-        if (orders[6] == null) {
+        if (orders[7] == null) {
             List<Integer> ordersList = Arrays.asList(ordersFinal);
             Collections.shuffle(ordersList);
-            for (int i = 6; i < 12; i++) {
-                orders[i] = ordersList.get(i - 6);
+            for (int i = 7; i < 14; i++) {
+                orders[i] = ordersList.get(i - 7);
             }
             System.out.println(Arrays.toString(orders));
         }
