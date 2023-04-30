@@ -25,11 +25,13 @@ public class TetrisApp {
     boolean isHolding = false;
     boolean hasHold = false;
     boolean hasClearAllLine = true;
+    boolean updateScore = false; //meh
     Integer[] ordersFinal = {0,1,2,3,4,5,6};
     Integer[] orders = new Integer[14];
     int gameOverCondition = 0;
     int score = 0;
     int linesCleared = 0;
+    int b2bCombo = 0;
     int combo = 0;
     int y = 0;
     int x = 3;
@@ -351,6 +353,7 @@ public class TetrisApp {
             }
             //Untuk check line full
             if (isFull) {
+                updateScore = true;
                 linesCleared++;
                 clearLine(row);
                 if (hasClearAllLine) combo++;
@@ -358,7 +361,10 @@ public class TetrisApp {
                 return true;
             }
         }
-        updateScore();
+        if (updateScore) {
+            updateScore();
+            updateScore = false;
+        }
         hasClearAllLine = true;
         linesCleared = 0; //reset
         return false;
@@ -366,7 +372,7 @@ public class TetrisApp {
 
     public void clearLine(int index) {
         if (linesCleared < 3) TetrisSounds.playSound("/Assets/Sounds/clearline.wav"); //sounds
-        else if (linesCleared == 4 && combo > 0) TetrisSounds.playSound("/Assets/Sounds/clearbtb.wav"); //sounds
+        else if (linesCleared == 4 && b2bCombo > 0) TetrisSounds.playSound("/Assets/Sounds/clearbtb.wav"); //sounds
         else if (linesCleared == 4) TetrisSounds.playSound("/Assets/Sounds/clearquad.wav"); //sounds
         if (combo == 1) TetrisSounds.playSound("/Assets/Sounds/combo_1.wav"); //sounds
         else if (combo == 2) TetrisSounds.playSound("/Assets/Sounds/combo_2.wav"); //sounds
@@ -388,8 +394,15 @@ public class TetrisApp {
     }
 
     public void updateScore() {
-        if (linesCleared == 4) score = score + 40;
-        score = score + (10 * linesCleared) + (10 * combo * linesCleared);
+        if (linesCleared == 4) {
+            b2bCombo++;
+            System.out.println("b2bCombo = " + b2bCombo);
+        }
+        else if (linesCleared < 3) {
+            System.out.println("linesCleared not 4");
+            b2bCombo = 0;
+        }
+        score = score + (10 * linesCleared) + (10 * combo * linesCleared) + (40 * b2bCombo);
         tetrisGUI.scoreLabel.setText("score: " + score);
     }
 
