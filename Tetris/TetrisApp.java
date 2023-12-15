@@ -1,7 +1,6 @@
 package Tetris;
 
 import javax.swing.*;
-import javax.swing.border.SoftBevelBorder;
 import java.awt.event.ActionEvent;
 import java.util.Arrays;
 import java.util.Collections;
