@@ -40,9 +40,7 @@ public class TetrisApp {
     int newTetrominoInterval= 0;
 
     public void tetrisTimer() throws InterruptedException {
-        updateTetrisAreaDisplay(); //update tetris area display on launch
         newTetromino(); //update menu display on launch
-        updateTetrominoHoldBoxDisplay();
 
         tetrisGUI.rightAction = new RightAction();
         tetrisGUI.leftAction = new LeftAction();
@@ -103,7 +101,6 @@ public class TetrisApp {
 //        tetrominoType = (int) (Math.random() * tetrominoes.length);
         generateRandomTetromino();
         tetrominoBoxReDraw();
-        updateTetrominoBoxDisplay();
         tetrominoType = orders[0];
         gameOverCheck();
     }
@@ -132,7 +129,6 @@ public class TetrisApp {
         outlineMoveDown();
         tetrominoReDraw(1,0);
         y++;
-        updateTetrisAreaDisplay();
     }
 
     public void moveDownInstant() {
@@ -146,7 +142,6 @@ public class TetrisApp {
         xOutline = x;
         outlineMoveDown();
         tetrominoReDraw(0,0);
-        updateTetrisAreaDisplay();
     }
 
     public void move(int m) {
@@ -160,7 +155,6 @@ public class TetrisApp {
         outlineMoveDown();
         tetrominoReDraw(0,m);
         x = x + m;
-        updateTetrisAreaDisplay();
     }
 
     public int[][] rotate(int[][] array, int direction) {
@@ -387,7 +381,6 @@ public class TetrisApp {
         for (int row = index - 1; row > -1; row--) {
             for (int item = 0; item < tetrisArea[row].length; item++) {
                 tetrisArea[row+1][item] = tetrisArea[row][item];
-                updateTetrisAreaDisplay();
             }
         }
         checkIfLineFull(); //method to call clearLine again if there's still other full line
@@ -406,164 +399,11 @@ public class TetrisApp {
         tetrisGUI.scoreLabel.setText("score: " + score);
     }
 
-    //GUI work
-    public void updateTetrisAreaDisplay() {
-        for (int row = 0; row < 22; row++) {
-            for (int columnInRow = 0; columnInRow < 10; columnInRow++) {
-                switch (tetrisArea[row][columnInRow]) {
-                    case 1 -> {
-                        tetrisGUI.tetrisBox[row][columnInRow].setBackground(TetrisContants.ORANGE);
-                        tetrisGUI.tetrisBox[row][columnInRow].setOpaque(true);
-                        tetrisGUI.tetrisBox[row][columnInRow].setBorder(BorderFactory.createSoftBevelBorder(SoftBevelBorder.LOWERED));
-                    }
-                    case 2 -> {
-                        tetrisGUI.tetrisBox[row][columnInRow].setBackground(TetrisContants.BLUE);
-                        tetrisGUI.tetrisBox[row][columnInRow].setOpaque(true);
-                        tetrisGUI.tetrisBox[row][columnInRow].setBorder(BorderFactory.createSoftBevelBorder(SoftBevelBorder.LOWERED));
-                    }
-                    case 3 -> {
-                        tetrisGUI.tetrisBox[row][columnInRow].setBackground(TetrisContants.GREEN);
-                        tetrisGUI.tetrisBox[row][columnInRow].setOpaque(true);
-                        tetrisGUI.tetrisBox[row][columnInRow].setBorder(BorderFactory.createSoftBevelBorder(SoftBevelBorder.LOWERED));
-                    }
-                    case 4 -> {
-                        tetrisGUI.tetrisBox[row][columnInRow].setBackground(TetrisContants.RED);
-                        tetrisGUI.tetrisBox[row][columnInRow].setOpaque(true);
-                        tetrisGUI.tetrisBox[row][columnInRow].setBorder(BorderFactory.createSoftBevelBorder(SoftBevelBorder.LOWERED));
-                    }
-                    case 5 -> {
-                        tetrisGUI.tetrisBox[row][columnInRow].setBackground(TetrisContants.TEAL);
-                        tetrisGUI.tetrisBox[row][columnInRow].setOpaque(true);
-                        tetrisGUI.tetrisBox[row][columnInRow].setBorder(BorderFactory.createSoftBevelBorder(SoftBevelBorder.LOWERED));
-                    }
-                    case 6 -> {
-                        tetrisGUI.tetrisBox[row][columnInRow].setBackground(TetrisContants.YELLOW);
-                        tetrisGUI.tetrisBox[row][columnInRow].setOpaque(true);
-                        tetrisGUI.tetrisBox[row][columnInRow].setBorder(BorderFactory.createSoftBevelBorder(SoftBevelBorder.LOWERED));
-                    }
-                    case 7 -> {
-                        tetrisGUI.tetrisBox[row][columnInRow].setBackground(TetrisContants.PURPLE);
-                        tetrisGUI.tetrisBox[row][columnInRow].setOpaque(true);
-                        tetrisGUI.tetrisBox[row][columnInRow].setBorder(BorderFactory.createSoftBevelBorder(SoftBevelBorder.LOWERED));
-                    }
-                    case 'O' -> {
-                        tetrisGUI.tetrisBox[row][columnInRow].setBackground(TetrisContants.BLACK);
-                        tetrisGUI.tetrisBox[row][columnInRow].setBorder(BorderFactory.createDashedBorder(TetrisContants.GRAY_OUTLINE, 2, 5));
-                    }
-                    default -> {
-                        tetrisGUI.tetrisBox[row][columnInRow].setBorder(BorderFactory.createSoftBevelBorder(SoftBevelBorder.LOWERED));
-                        tetrisGUI.tetrisBox[row][columnInRow].setBackground(TetrisContants.BLACK);
-                        tetrisGUI.tetrisBox[row][columnInRow].setOpaque(true);
-                    }
-                }
-            }
-        }
-    }
-
-    public void updateTetrominoBoxDisplay() {
-        for (int row = 0; row < 15; row++) {
-            for (int columnInRow = 0; columnInRow < 4; columnInRow++) {
-                switch (tetrominoArea[row][columnInRow]) {
-                    case 1 -> {
-                        tetrisGUI.tetrominoBox[row][columnInRow].setBackground(TetrisContants.ORANGE);
-                        tetrisGUI.tetrominoBox[row][columnInRow].setOpaque(true);
-                        tetrisGUI.tetrominoBox[row][columnInRow].setBorder(BorderFactory.createSoftBevelBorder(SoftBevelBorder.LOWERED));
-                    }
-                    case 2 -> {
-                        tetrisGUI.tetrominoBox[row][columnInRow].setBackground(TetrisContants.BLUE);
-                        tetrisGUI.tetrominoBox[row][columnInRow].setOpaque(true);
-                        tetrisGUI.tetrominoBox[row][columnInRow].setBorder(BorderFactory.createSoftBevelBorder(SoftBevelBorder.LOWERED));
-                    }
-                    case 3 -> {
-                        tetrisGUI.tetrominoBox[row][columnInRow].setBackground(TetrisContants.GREEN);
-                        tetrisGUI.tetrominoBox[row][columnInRow].setOpaque(true);
-                        tetrisGUI.tetrominoBox[row][columnInRow].setBorder(BorderFactory.createSoftBevelBorder(SoftBevelBorder.LOWERED));
-                    }
-                    case 4 -> {
-                        tetrisGUI.tetrominoBox[row][columnInRow].setBackground(TetrisContants.RED);
-                        tetrisGUI.tetrominoBox[row][columnInRow].setOpaque(true);
-                        tetrisGUI.tetrominoBox[row][columnInRow].setBorder(BorderFactory.createSoftBevelBorder(SoftBevelBorder.LOWERED));
-                    }
-                    case 5 -> {
-                        tetrisGUI.tetrominoBox[row][columnInRow].setBackground(TetrisContants.TEAL);
-                        tetrisGUI.tetrominoBox[row][columnInRow].setOpaque(true);
-                        tetrisGUI.tetrominoBox[row][columnInRow].setBorder(BorderFactory.createSoftBevelBorder(SoftBevelBorder.LOWERED));
-                    }
-                    case 6 -> {
-                        tetrisGUI.tetrominoBox[row][columnInRow].setBackground(TetrisContants.YELLOW);
-                        tetrisGUI.tetrominoBox[row][columnInRow].setOpaque(true);
-                        tetrisGUI.tetrominoBox[row][columnInRow].setBorder(BorderFactory.createSoftBevelBorder(SoftBevelBorder.LOWERED));
-                    }
-                    case 7 -> {
-                        tetrisGUI.tetrominoBox[row][columnInRow].setBackground(TetrisContants.PURPLE);
-                        tetrisGUI.tetrominoBox[row][columnInRow].setOpaque(true);
-                        tetrisGUI.tetrominoBox[row][columnInRow].setBorder(BorderFactory.createSoftBevelBorder(SoftBevelBorder.LOWERED));
-                    }
-                    default -> {
-                        tetrisGUI.tetrominoBox[row][columnInRow].setBorder(BorderFactory.createSoftBevelBorder(SoftBevelBorder.LOWERED));
-                        tetrisGUI.tetrominoBox[row][columnInRow].setBackground(TetrisContants.BLACK);
-                        tetrisGUI.tetrominoBox[row][columnInRow].setOpaque(true);
-                    }
-                }
-            }
-        }
-    }
-
-    public void updateTetrominoHoldBoxDisplay() {
-        for (int row = 0; row < 4; row++) {
-            for (int columnInRow = 0; columnInRow < 4; columnInRow++) {
-                switch (tetrominoBoxArea[row][columnInRow]) {
-                    case 1 -> {
-                        tetrisGUI.tetrominoHoldBox[row][columnInRow].setBackground(TetrisContants.ORANGE);
-                        tetrisGUI.tetrominoHoldBox[row][columnInRow].setOpaque(true);
-                        tetrisGUI.tetrominoHoldBox[row][columnInRow].setBorder(BorderFactory.createSoftBevelBorder(SoftBevelBorder.LOWERED));
-                    }
-                    case 2 -> {
-                        tetrisGUI.tetrominoHoldBox[row][columnInRow].setBackground(TetrisContants.BLUE);
-                        tetrisGUI.tetrominoHoldBox[row][columnInRow].setOpaque(true);
-                        tetrisGUI.tetrominoHoldBox[row][columnInRow].setBorder(BorderFactory.createSoftBevelBorder(SoftBevelBorder.LOWERED));
-                    }
-                    case 3 -> {
-                        tetrisGUI.tetrominoHoldBox[row][columnInRow].setBackground(TetrisContants.GREEN);
-                        tetrisGUI.tetrominoHoldBox[row][columnInRow].setOpaque(true);
-                        tetrisGUI.tetrominoHoldBox[row][columnInRow].setBorder(BorderFactory.createSoftBevelBorder(SoftBevelBorder.LOWERED));
-                    }
-                    case 4 -> {
-                        tetrisGUI.tetrominoHoldBox[row][columnInRow].setBackground(TetrisContants.RED);
-                        tetrisGUI.tetrominoHoldBox[row][columnInRow].setOpaque(true);
-                        tetrisGUI.tetrominoHoldBox[row][columnInRow].setBorder(BorderFactory.createSoftBevelBorder(SoftBevelBorder.LOWERED));
-                    }
-                    case 5 -> {
-                        tetrisGUI.tetrominoHoldBox[row][columnInRow].setBackground(TetrisContants.TEAL);
-                        tetrisGUI.tetrominoHoldBox[row][columnInRow].setOpaque(true);
-                        tetrisGUI.tetrominoHoldBox[row][columnInRow].setBorder(BorderFactory.createSoftBevelBorder(SoftBevelBorder.LOWERED));
-                    }
-                    case 6 -> {
-                        tetrisGUI.tetrominoHoldBox[row][columnInRow].setBackground(TetrisContants.YELLOW);
-                        tetrisGUI.tetrominoHoldBox[row][columnInRow].setOpaque(true);
-                        tetrisGUI.tetrominoHoldBox[row][columnInRow].setBorder(BorderFactory.createSoftBevelBorder(SoftBevelBorder.LOWERED));
-                    }
-                    case 7 -> {
-                        tetrisGUI.tetrominoHoldBox[row][columnInRow].setBackground(TetrisContants.PURPLE);
-                        tetrisGUI.tetrominoHoldBox[row][columnInRow].setOpaque(true);
-                        tetrisGUI.tetrominoHoldBox[row][columnInRow].setBorder(BorderFactory.createSoftBevelBorder(SoftBevelBorder.LOWERED));
-                    }
-                    default -> {
-                        tetrisGUI.tetrominoHoldBox[row][columnInRow].setBorder(BorderFactory.createSoftBevelBorder(SoftBevelBorder.LOWERED));
-                        tetrisGUI.tetrominoHoldBox[row][columnInRow].setBackground(TetrisContants.BLACK);
-                        tetrisGUI.tetrominoHoldBox[row][columnInRow].setOpaque(true);
-                    }
-                }
-            }
-        }
-    }
-
     public void outlineMoveDown() { //untuk move down
         while (!outlineHasHitFloor()) { //Forloop insta down
             outlineTetrominoReDraw(1,0);
             yOutline++;
         }
-        updateTetrisAreaDisplay();
     }
 
     public void outlineTetrominoErase() {
@@ -599,6 +439,7 @@ public class TetrisApp {
 
     public void tetrominoReDraw(int yVal, int xVal) {
         tetrominoErase();
+        tetrisGUI.tetrisGraphics.repaint();
         for (int row = 0; row < tetrominoes[tetrominoType].length; row++) {
             for (int item = 0; item < tetrominoes[tetrominoType][row].length; item++) {
                 switch (tetrominoes[tetrominoType][row][item]) {
@@ -715,7 +556,6 @@ public class TetrisApp {
                 while (!outlineHasHitFloor()) yOutline++; // buat kondisi hit floor outline ketika outline belum hit floor
                 outlineTetrominoReDraw(0,0);
                 tetrominoReDraw(0,0); //value 0,0 buat redraw rotation (no value change in rotation)
-                updateTetrisAreaDisplay();
             }
         }
     }
@@ -734,7 +574,6 @@ public class TetrisApp {
                 while (!outlineHasHitFloor()) yOutline++; // buat kondisi hit floor outline
                 outlineTetrominoReDraw(0,0);
                 tetrominoReDraw(0,0); //value 0,0 buat redraw rotation (no value change in rotation)
-                updateTetrisAreaDisplay();
             }
         }
     }
@@ -749,7 +588,6 @@ public class TetrisApp {
                     TetrisSounds.playSound("/Assets/Sounds/hold.wav"); //sounds
                     int tempTetrominoHoldType = tetrominoHoldType;
                     tetrominoHoldBoxReDraw();
-                    updateTetrominoHoldBoxDisplay();
                     //untuk erase/redraw
                     tetrominoErase();
                     outlineTetrominoErase();
@@ -762,12 +600,10 @@ public class TetrisApp {
                     xOutline = x;
                     outlineMoveDown();
                     tetrominoReDraw(0,0);
-                    updateTetrisAreaDisplay();
                     hasHold = true;
                 } else { //untuk hold pertama kali (dari else kebawah ini)
                     TetrisSounds.playSound("/Assets/Sounds/hold.wav"); //sounds
                     tetrominoHoldBoxReDraw();
-                    updateTetrominoHoldBoxDisplay();
                     tetrominoHoldType = tetrominoType;
                     //untuk erase/redraw
                     tetrominoErase();
@@ -778,7 +614,6 @@ public class TetrisApp {
                     xOutline = x;
                     outlineMoveDown();
                     tetrominoReDraw(0, 0);
-                    updateTetrisAreaDisplay();
                     isHolding = true;
                     hasHold = true;
                 }

@@ -3,7 +3,6 @@ package Tetris;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -26,12 +25,14 @@ public class TetrisGUI extends JFrame implements ActionListener, MouseListener, 
     JLabel staticLabel;
     JLabel scoreLabel;
 
-    JPanel body;
+    JLayeredPane body;
+
     JPanel tetrominoHoldBody;
     JPanel tetrisBody;
     JPanel menuBody;
     JPanel tetrominoHoldContainer;
     JPanel tetrisContainer;
+    JPanel tetrisGraphics;
     JPanel tetrominoContainer;
     JLabel[][] tetrominoHoldBox;
     JLabel[][] tetrisBox;
@@ -72,6 +73,7 @@ public class TetrisGUI extends JFrame implements ActionListener, MouseListener, 
             for (int columnInRow = 0; columnInRow < 4; columnInRow++) {
                 tetrominoHoldBox[row][columnInRow] = new JLabel();
                 tetrominoHoldBox[row][columnInRow].setOpaque(true);
+                tetrominoHoldBox[row][columnInRow].setBackground(TetrisContants.BLACK);
                 tetrominoHoldContainer.add(tetrominoHoldBox[row][columnInRow]);
             }
         }
@@ -83,6 +85,7 @@ public class TetrisGUI extends JFrame implements ActionListener, MouseListener, 
             for (int columnInRow = 0; columnInRow < 10; columnInRow++) {
                 tetrisBox[row][columnInRow] = new JLabel();
                 tetrisBox[row][columnInRow].setOpaque(true);
+                tetrisBox[row][columnInRow].setBackground(TetrisContants.BLACK);
                 tetrisContainer.add(tetrisBox[row][columnInRow]);
             }
         }
@@ -94,6 +97,7 @@ public class TetrisGUI extends JFrame implements ActionListener, MouseListener, 
             for (int columnInRow = 0; columnInRow < 4; columnInRow++) {
                 tetrominoBox[row][columnInRow] = new JLabel();
                 tetrominoBox[row][columnInRow].setOpaque(true);
+                tetrominoBox[row][columnInRow].setBackground(TetrisContants.BLACK);
                 tetrominoContainer.add(tetrominoBox[row][columnInRow]);
             }
         }
@@ -158,11 +162,14 @@ public class TetrisGUI extends JFrame implements ActionListener, MouseListener, 
         menuBody.add(tetrominoContainer);
         menuBody.add(staticLabel);
 
-        body = new JPanel();
+        tetrisGraphics = new TetrisGraphics();
+
+        body = new JLayeredPane();
         body.setLayout(null);
-        body.add(tetrisBody);
-        body.add(menuBody);
-        body.add(tetrominoHoldBody);
+        body.add(tetrisBody, Integer.valueOf(0));
+        body.add(menuBody, Integer.valueOf(0));
+        body.add(tetrominoHoldBody, Integer.valueOf(0));
+        body.add(tetrisGraphics, Integer.valueOf(1));
         body.addMouseListener(this);
         body.addMouseMotionListener(this);
         body.setFocusable(true);
