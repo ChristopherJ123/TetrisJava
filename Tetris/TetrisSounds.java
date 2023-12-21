@@ -4,7 +4,15 @@ import javax.sound.sampled.*;
 import java.net.URL;
 
 public class TetrisSounds { //src StackOverflow
-    public static synchronized void playSound(String path) {
+
+    String path = "/Assets/Sounds/Tetrio/";
+
+    public void playSFX(String sfx) {
+        String format = ".wav";
+        playSoundWAV(path + sfx + format);
+    }
+
+    public synchronized void playSoundWAV(String path) {
         try {
             URL url = TetrisSounds.class.getResource(path);
             Clip clip = AudioSystem.getClip();

@@ -3,13 +3,13 @@ package Tetris;
 import java.awt.*;
 
 public class TetrisContants {
-    public static final int[][][] TETROMINOES = { //can add custom
-            { //0 LTetromino
+    public static final int[][][] TETROMINOS = { //can add custom
+            { //0 JTetromino
                     {1,0,0},
                     {1,1,1},
                     {0,0,0}
             },
-            { //1 JTtetromino
+            { //1 LTtetromino
                     {0,0,2},
                     {2,2,2},
                     {0,0,0}
@@ -40,59 +40,19 @@ public class TetrisContants {
                     {0,0,0}
             }
     };
+    // TODO fix namings for example ghost piece instead of "outline"
+    public static final int[][] TETRIS_AREA = new int[40][10];
 
-    public static final int[][] TETRIS_AREA = {
-            {0,0,0,0,0,0,0,0,0,0},
-            {0,0,0,0,0,0,0,0,0,0},
-            {0,0,0,0,0,0,0,0,0,0},
-            {0,0,0,0,0,0,0,0,0,0},
-            {0,0,0,0,0,0,0,0,0,0},
-            {0,0,0,0,0,0,0,0,0,0},
-            {0,0,0,0,0,0,0,0,0,0},
-            {0,0,0,0,0,0,0,0,0,0},
-            {0,0,0,0,0,0,0,0,0,0},
-            {0,0,0,0,0,0,0,0,0,0},
-            {0,0,0,0,0,0,0,0,0,0},
-            {0,0,0,0,0,0,0,0,0,0},
-            {0,0,0,0,0,0,0,0,0,0},
-            {0,0,0,0,0,0,0,0,0,0},
-            {0,0,0,0,0,0,0,0,0,0},
-            {0,0,0,0,0,0,0,0,0,0},
-            {0,0,0,0,0,0,0,0,0,0},
-            {0,0,0,0,0,0,0,0,0,0},
-            {0,0,0,0,0,0,0,0,0,0},
-            {0,0,0,0,0,0,0,0,0,0},
-            {0,0,0,0,0,0,0,0,0,0},
-            {0,0,0,0,0,0,0,0,0,0},
-            {'G','G','G','G','G','G','G','G','G','G'} //G = ground
-    };
+    public static final int[][] VISUAL_AREA = new int[40][10];
 
-    public static final int[][] TETROMINO_AREA = {
-            {0,0,0,0},
-            {0,0,0,0},
-            {0,0,0,0},
-            {0,0,0,0},
-            {0,0,0,0},
-            {0,0,0,0},
-            {0,0,0,0},
-            {0,0,0,0},
-            {0,0,0,0},
-            {0,0,0,0},
-            {0,0,0,0},
-            {0,0,0,0},
-            {0,0,0,0},
-            {0,0,0,0},
-            {0,0,0,0}
-    };
+    public static final int[][] TETROMINO_AREA = new int[15][4];
 
-    public static final int[][] TETROMINO_BOX_AREA = {
-            {0,0,0,0},
-            {0,0,0,0},
-            {0,0,0,0},
-            {0,0,0,0}
-    };
+    public static final int[][] TETROMINO_BOX_AREA = new int[4][4];
 
     public static final int TIMER_IN_MILLISECONDS = 1000;
+    public static final int DAS = 117; //117
+    public static final int ARR = 1;
+    public static final int SDF = 1;
 
     //Tetrominos and outline colors
     public static final Color ORANGE = new Color(255, 165, 0);
@@ -109,5 +69,5 @@ public class TetrisContants {
 //    public static final Color GUI_TETRISBG = new Color(44, 62, 80);
     public static final Color GUI_TETRISBG = new Color(0.20F, 0.28F, 0.36F, 0.75F);
     public static final Color GUI_MENUBG = new Color(52, 73, 94);
-
+    
 }

@@ -20,12 +20,13 @@ public class TetrisGraphics extends JPanel {
     BufferedImage outlineTetromino;
 
     int[][] tetrisArea = TetrisContants.TETRIS_AREA;
+    int[][] playfield = TetrisContants.VISUAL_AREA;
     int[][] tetrominoArea = TetrisContants.TETROMINO_AREA;
     int[][] tetrominoBoxArea = TetrisContants.TETROMINO_BOX_AREA;
 
     TetrisGraphics() {
         InputStream istp = getClass().getResourceAsStream("/Assets/Textures/tetromino.png");
-        this.setBounds(0, 0, 660, 700);
+        this.setBounds(0, 0, 660, 760);
         this.setOpaque(false); // Supaya ga overlap
         try {
             assert istp != null;
@@ -48,44 +49,59 @@ public class TetrisGraphics extends JPanel {
         Graphics2D g2D = (Graphics2D) g;
 
         for (int row = 0; row < TetrisContants.TETRIS_AREA.length; row++) {
-            for (int columnInRow = 0; columnInRow < TetrisContants.TETRIS_AREA[0].length; columnInRow++) {
+            for (int columnInRow = 0; columnInRow < TetrisContants.TETRIS_AREA[row].length; columnInRow++) {
                 switch (tetrisArea[row][columnInRow]) {
-                    case 1 -> g2D.drawImage(orangeTetromino, 30*columnInRow+180,30*row+20, Color.BLACK, null);
-                    case 2 -> g2D.drawImage(blueTetromino, 30*columnInRow+180,30*row+20, Color.BLACK, null);
-                    case 3 -> g2D.drawImage(greenTetromino, 30*columnInRow+180,30*row+20, Color.BLACK, null);
-                    case 4 -> g2D.drawImage(redTetromino, 30*columnInRow+180,30*row+20, Color.BLACK, null);
-                    case 5 -> g2D.drawImage(tealTetromino, 30*columnInRow+180,30*row+20, Color.BLACK, null);
-                    case 6 -> g2D.drawImage(yellowTetromino, 30*columnInRow+180,30*row+20, Color.BLACK, null);
-                    case 7 -> g2D.drawImage(magentaTetromino, 30*columnInRow+180,30*row+20, Color.BLACK, null);
-                    case 'O' -> g2D.drawImage(outlineTetromino, 30*columnInRow+180,30*row+20, Color.BLACK, null);
+                    case 1 -> g2D.drawImage(orangeTetromino, 30*columnInRow+180,30*row+20 - 530, Color.BLACK, null);
+                    case 2 -> g2D.drawImage(blueTetromino, 30*columnInRow+180,30*row+20 - 530, Color.BLACK, null);
+                    case 3 -> g2D.drawImage(greenTetromino, 30*columnInRow+180,30*row+20 - 530, Color.BLACK, null);
+                    case 4 -> g2D.drawImage(redTetromino, 30*columnInRow+180,30*row+20 - 530, Color.BLACK, null);
+                    case 5 -> g2D.drawImage(tealTetromino, 30*columnInRow+180,30*row+20 - 530, Color.BLACK, null);
+                    case 6 -> g2D.drawImage(yellowTetromino, 30*columnInRow+180,30*row+20 - 530, Color.BLACK, null);
+                    case 7 -> g2D.drawImage(magentaTetromino, 30*columnInRow+180,30*row+20 - 530, Color.BLACK, null);
+                    case 'O' -> g2D.drawImage(outlineTetromino, 30*columnInRow+180,30*row+20 - 530, Color.BLACK, null);
+                }
+            }
+        }
+
+        for (int row = 0; row < TetrisContants.VISUAL_AREA.length; row++) {
+            for (int columnInRow = 0; columnInRow < TetrisContants.VISUAL_AREA[row].length; columnInRow++) {
+                switch (playfield[row][columnInRow]) {
+                    case 1 -> g2D.drawImage(orangeTetromino, 30*columnInRow+180,30*row+20 - 530, Color.BLACK, null);
+                    case 2 -> g2D.drawImage(blueTetromino, 30*columnInRow+180,30*row+20 - 530, Color.BLACK, null);
+                    case 3 -> g2D.drawImage(greenTetromino, 30*columnInRow+180,30*row+20 - 530, Color.BLACK, null);
+                    case 4 -> g2D.drawImage(redTetromino, 30*columnInRow+180,30*row+20 - 530, Color.BLACK, null);
+                    case 5 -> g2D.drawImage(tealTetromino, 30*columnInRow+180,30*row+20 - 530, Color.BLACK, null);
+                    case 6 -> g2D.drawImage(yellowTetromino, 30*columnInRow+180,30*row+20 - 530, Color.BLACK, null);
+                    case 7 -> g2D.drawImage(magentaTetromino, 30*columnInRow+180,30*row+20 - 530, Color.BLACK, null);
+                    case 'O' -> g2D.drawImage(outlineTetromino, 30*columnInRow+180,30*row+20 - 530, Color.BLACK, null);
                 }
             }
         }
 
         for (int row = 0; row < TetrisContants.TETROMINO_AREA.length; row++) {
-            for (int columnInRow = 0; columnInRow < TetrisContants.TETROMINO_AREA[0].length; columnInRow++) {
+            for (int columnInRow = 0; columnInRow < TetrisContants.TETROMINO_AREA[row].length; columnInRow++) {
                 switch (tetrominoArea[row][columnInRow]) {
-                    case 1 -> g2D.drawImage(orangeTetromino, 30*columnInRow+520,30*row+50, Color.BLACK, null);
-                    case 2 -> g2D.drawImage(blueTetromino, 30*columnInRow+520,30*row+50, Color.BLACK, null);
-                    case 3 -> g2D.drawImage(greenTetromino, 30*columnInRow+520,30*row+50, Color.BLACK, null);
-                    case 4 -> g2D.drawImage(redTetromino, 30*columnInRow+520,30*row+50, Color.BLACK, null);
-                    case 5 -> g2D.drawImage(tealTetromino, 30*columnInRow+520,30*row+50, Color.BLACK, null);
-                    case 6 -> g2D.drawImage(yellowTetromino, 30*columnInRow+520,30*row+50, Color.BLACK, null);
-                    case 7 -> g2D.drawImage(magentaTetromino, 30*columnInRow+520,30*row+50, Color.BLACK, null);
+                    case 1 -> g2D.drawImage(orangeTetromino, 30*columnInRow+520,30*row+120, Color.BLACK, null);
+                    case 2 -> g2D.drawImage(blueTetromino, 30*columnInRow+520,30*row+120, Color.BLACK, null);
+                    case 3 -> g2D.drawImage(greenTetromino, 30*columnInRow+520,30*row+120, Color.BLACK, null);
+                    case 4 -> g2D.drawImage(redTetromino, 30*columnInRow+520,30*row+120, Color.BLACK, null);
+                    case 5 -> g2D.drawImage(tealTetromino, 30*columnInRow+520,30*row+120, Color.BLACK, null);
+                    case 6 -> g2D.drawImage(yellowTetromino, 30*columnInRow+520,30*row+120, Color.BLACK, null);
+                    case 7 -> g2D.drawImage(magentaTetromino, 30*columnInRow+520,30*row+120, Color.BLACK, null);
                 }
             }
         }
 
         for (int row = 0; row < TetrisContants.TETROMINO_BOX_AREA.length; row++) {
-            for (int columnInRow = 0; columnInRow < TetrisContants.TETROMINO_BOX_AREA[0].length; columnInRow++) {
+            for (int columnInRow = 0; columnInRow < TetrisContants.TETROMINO_BOX_AREA[row].length; columnInRow++) {
                 switch (tetrominoBoxArea[row][columnInRow]) {
-                    case 1 -> g2D.drawImage(orangeTetromino, 30*columnInRow+20,30*row+50, Color.BLACK, null);
-                    case 2 -> g2D.drawImage(blueTetromino, 30*columnInRow+20,30*row+50, Color.BLACK, null);
-                    case 3 -> g2D.drawImage(greenTetromino, 30*columnInRow+20,30*row+50, Color.BLACK, null);
-                    case 4 -> g2D.drawImage(redTetromino, 30*columnInRow+20,30*row+50, Color.BLACK, null);
-                    case 5 -> g2D.drawImage(tealTetromino, 30*columnInRow+20,30*row+50, Color.BLACK, null);
-                    case 6 -> g2D.drawImage(yellowTetromino, 30*columnInRow+20,30*row+50, Color.BLACK, null);
-                    case 7 -> g2D.drawImage(magentaTetromino, 30*columnInRow+20,30*row+50, Color.BLACK, null);
+                    case 1 -> g2D.drawImage(orangeTetromino, 30*columnInRow+20,30*row+120, Color.BLACK, null);
+                    case 2 -> g2D.drawImage(blueTetromino, 30*columnInRow+20,30*row+120, Color.BLACK, null);
+                    case 3 -> g2D.drawImage(greenTetromino, 30*columnInRow+20,30*row+120, Color.BLACK, null);
+                    case 4 -> g2D.drawImage(redTetromino, 30*columnInRow+20,30*row+120, Color.BLACK, null);
+                    case 5 -> g2D.drawImage(tealTetromino, 30*columnInRow+20,30*row+120, Color.BLACK, null);
+                    case 6 -> g2D.drawImage(yellowTetromino, 30*columnInRow+20,30*row+120, Color.BLACK, null);
+                    case 7 -> g2D.drawImage(magentaTetromino, 30*columnInRow+20,30*row+120, Color.BLACK, null);
                 }
             }
         }

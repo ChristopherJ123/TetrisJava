@@ -68,42 +68,18 @@ public class TetrisGUI extends JFrame implements ActionListener, MouseListener, 
 
         tetrominoHoldContainer = new JPanel();
         tetrominoHoldContainer.setBounds(20,50,120,120);
-        tetrominoHoldContainer.setLayout(new GridLayout(4,4));
-        for (int row = 0; row < 4; row++) {
-            for (int columnInRow = 0; columnInRow < 4; columnInRow++) {
-                tetrominoHoldBox[row][columnInRow] = new JLabel();
-                tetrominoHoldBox[row][columnInRow].setOpaque(true);
-                tetrominoHoldBox[row][columnInRow].setBackground(TetrisContants.BLACK);
-                tetrominoHoldContainer.add(tetrominoHoldBox[row][columnInRow]);
-            }
-        }
+        tetrominoHoldContainer.setBackground(TetrisContants.BLACK);
 
         tetrisContainer = new JPanel();
-        tetrisContainer.setBounds(20, 20, 300, 660);
-        tetrisContainer.setLayout(new GridLayout(22, 10));
-        for (int row = 0; row < 22; row++) {
-            for (int columnInRow = 0; columnInRow < 10; columnInRow++) {
-                tetrisBox[row][columnInRow] = new JLabel();
-                tetrisBox[row][columnInRow].setOpaque(true);
-                tetrisBox[row][columnInRow].setBackground(TetrisContants.BLACK);
-                tetrisContainer.add(tetrisBox[row][columnInRow]);
-            }
-        }
+        tetrisContainer.setBounds(20, 20, 300, 600);
+        tetrisContainer.setBackground(TetrisContants.BLACK);
 
         tetrominoContainer = new JPanel();
         tetrominoContainer.setBounds(20, 50, 120, 450);
-        tetrominoContainer.setLayout(new GridLayout(15, 4));
-        for (int row = 0; row < 15; row++) {
-            for (int columnInRow = 0; columnInRow < 4; columnInRow++) {
-                tetrominoBox[row][columnInRow] = new JLabel();
-                tetrominoBox[row][columnInRow].setOpaque(true);
-                tetrominoBox[row][columnInRow].setBackground(TetrisContants.BLACK);
-                tetrominoContainer.add(tetrominoBox[row][columnInRow]);
-            }
-        }
+        tetrominoContainer.setBackground(TetrisContants.BLACK);
 
         tetrominoHoldBody = new JPanel();
-        tetrominoHoldBody.setBounds(0,0,160,337);
+        tetrominoHoldBody.setBounds(0,70,160,337);
         tetrominoHoldBody.setOpaque(true);
         tetrominoHoldBody.setBackground(TetrisContants.GUI_MENUBG);
         tetrominoHoldBody.setLayout(null);
@@ -146,13 +122,13 @@ public class TetrisGUI extends JFrame implements ActionListener, MouseListener, 
         tetrominoHoldBody.add(staticLabel);
 
         tetrisBody = new JPanel();
-        tetrisBody.setBounds(160,0,340,700);
+        tetrisBody.setBounds(160,70,340,640);
         tetrisBody.setBackground(TetrisContants.GUI_TETRISBG);
         tetrisBody.setLayout(null);
         tetrisBody.add(tetrisContainer);
 
         menuBody = new JPanel();
-        menuBody.setBounds(500,0,160,520);
+        menuBody.setBounds(500,70,160,520);
         menuBody.setBackground(TetrisContants.GUI_MENUBG);
         menuBody.setLayout(null);
         staticLabel = new JLabel("next tetromino");
@@ -173,23 +149,14 @@ public class TetrisGUI extends JFrame implements ActionListener, MouseListener, 
         body.addMouseListener(this);
         body.addMouseMotionListener(this);
         body.setFocusable(true);
-        body.setBackground(new Color(0,0,0,0));
-        body.setOpaque(true);
-
-        body.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("RIGHT"), "rightActionKey");
-        body.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("LEFT"), "leftActionKey");
-        body.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("DOWN"), "downActionKey");
-        body.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("SPACE"), "spaceActionKey");
-        body.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke('z'), "rotateAntiClockwiseActionKey");
-        body.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke('x'), "rotateClockwiseActionKey");
-        body.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke('c'), "holdActionKey");
-        body.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("ESCAPE"), "exitActionKey");
+        body.setBackground(new Color(0,0,0,0.5F));
+        body.setOpaque(false); // false
 
         this.add(body);
 
         this.setUndecorated(true);
         this.setBackground(new Color(0,0,0,0));
-        this.setSize(660, 700);
+        this.setSize(660, 710);
         this.setVisible(true);
         this.setTitle("setTitle goes here");
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
